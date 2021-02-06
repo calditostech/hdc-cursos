@@ -21,14 +21,14 @@
           <nav class="navbar navbar-expand-lg navbar-light">
               <div class="collapse navbar-collapse" id="navbar">
                   <a href="/"class="navbar-brand">
-                  <img src="/img/hdconvent.png" alt="HDC Events">
+                  <img src="/img/logo.jpg" alt="HDC Events">
                   </a>
                   <ul class="navbar-nav">
                       <li class="nav-item">
                           <a href="/" class="nav-link">Eventos</a>
                       </li>
                       <li class="nav-item">
-                          <a href="/events/create" class="nav-link">Criar Eventos</a>
+                          <a href="/eventos/create" class="nav-link">Criar Eventos</a>
                       </li>
                       <li class="nav-item">
                           <a href="/" class="nav-link">Entrar</a>
@@ -39,7 +39,16 @@
                   </ul>
                </div>
        </header>
-       @yield('content')
+       <main>
+           <div class="container-fluid">
+               <div class="row">
+                   @if(session('msg'))
+                   <p class="msg">{{ session('msg') }}</p>
+                   @endif
+                   @yield('content')
+               </div>
+           </div>
+       </main>
        <footer>
        <p>HDC Events &copy; 2021</p>
        </footer>

@@ -4,27 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Event;
+
 class EventCtrl extends Controller
 {
     public function index() {
-        $nome = "Ricardo";
-        $idade = 32;
+       
+        $eventos = Event::all();
 
-        $arr = [10,20,30,40,50];
-
-        $nomes = ["Ricardo","Maria","João","Saulo"];
-
-        return view('welcome',
-        [
-          'nome' => $nome,
-          'idade' => $idade,
-          'profissao' => "Programador",
-          'arr' => $arr,
-          'nomes' => $nomes
-        ]);
+        return view('welcome', ['eventos' => $eventos]);
     }
 
     public function create(){
         return view('events.create');
+    }
+
+    public function store(Request $request) {
+
+        $evento = new Event;
+
+        $evento->titulo = $request->titulo;
+        $evento->cidade = $request->cidade;
+        $evento->private = $request->private;
+        $evento->descricao = $request->descricao;
+        $evento->image = $request->image;
+
+        //img upload
+         if($request->hasfile('image') && $request->file('image')->isValid()){
+
+            $requestImage = $request->image;
+
+            $extension = $requestImage->extension();
+
+            $imageName = md5($requestImage->getClientOriginalName(). strtotime("now")).".".$extension;
+
+            $request->image->move(public_path('img/eventos'), $imageName);
+
+            $evento->image = $imageName;
+         }
+
+        $evento->save();
+
+        return redirect('/')->with('msg', 'Evento criado com sucesso!');
+    }
+
+    public function show($id){
+
+        $evento = Event::findOrFail($id);
+
+        return view('events.show', ['evento' => $evento]);
     }
 }

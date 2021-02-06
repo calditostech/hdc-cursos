@@ -15,14 +15,10 @@ use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\EventCtrl;
 
 Route::get('/',[EventCtrl::class, 'index']);
-Route::get('/events/create', [EventCtrl::class, 'create']);
+Route::get('/eventos/create', [EventCtrl::class, 'create']);
+Route::get('/eventos/{id}', [EventCtrl::class, 'show']);
+Route::post('/eventos', [EventCtrl::class, 'store']);
 
-Route::get('/produtos', function (){
-
-    $busca = request('search');
-
-    return view('produtos', ['busca' => $busca]);
-});
 
 Route::get('/contatos/{id}', function ($id){
     return view('contatos', ['id' => $id]);
