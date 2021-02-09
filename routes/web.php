@@ -23,3 +23,6 @@ Route::post('/eventos', [EventCtrl::class, 'store']);
 Route::get('/contatos/{id}', function ($id){
     return view('contatos', ['id' => $id]);
 });
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
